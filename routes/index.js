@@ -2,10 +2,10 @@ const express = require("express");
 const demoRequest = require("../controllers/demoRequest");
 const router = express.Router();
 
-router.get("/", demoRequest.welocome);
-router.post("/createDemoRequest", demoRequest.createDemoRequest);
+router.get("/demo", demoRequest.welocome);
+router.post("/demo/createDemoRequest", demoRequest.createDemoRequest);
 router.get(
-	"/getDemoRequestsByPagination",
+	"/demo/getDemoRequestsByPagination",
 	demoRequest.getDemoRequestsByPagination
 );
 

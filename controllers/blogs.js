@@ -1,4 +1,5 @@
 const Blog = require("../model/Blogs");
+const mongodb = require("mongodb");
 
 const getAllBlogs = async (req, res) => {
   let data = await Blog.find();

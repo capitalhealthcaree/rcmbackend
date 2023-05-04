@@ -102,9 +102,9 @@ const deleteBlog = async (req, res) => {
 
 module.exports = {
   getAllBlogs,
-  createBlog,
   getBlogsByPagination,
-  updateBlog,
   getBlogBySlug,
+  createBlog,
+  updateBlog,
   deleteBlog,
 };

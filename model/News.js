@@ -7,7 +7,6 @@ const newsSchema = mongoose.Schema(
     foucKW: { type: String, required: true },
     slug: { type: String, required: true },
     seoTitle: { type: Array, required: true },
-    category: { type: String, required: true },
     image: { type: String },
     newsCreatedAt: { type: Date, default: Date.now },
 

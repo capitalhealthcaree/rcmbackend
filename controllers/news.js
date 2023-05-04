@@ -1,98 +1,110 @@
-const nodemailer = require("nodemailer");
-const DemoRequest = require("../model/demoRequest");
+const News = require("../model/News");
+const mongodb = require("mongodb");
 
-const welocome = (req, res) => {
-	res.send("Welcome RCM APIs");
+const getAllNews = async (req, res) => {
+  let data = await News.find();
+  if (data) {
+    res.status(200).json({ data });
+  } else {
+    res.status(500).json({ err: "getting some error" });
+  }
 };
 
-const createDemoRequest = async (req, res) => {
-	const { name, phone, email, organization, numberOfPhysicians, message } =
-		req.body;
+const getNewsByPagination = async (req, res) => {
+  const page = parseInt(req.query.page) || 1; // default to first page if page is not specified
+  const limit = parseInt(req.query.limit) || 21; // default to 10 documents per page if limit is not specified
+  const startIndex = (page - 1) * limit;
 
-	try {
-		const demoData = await DemoRequest.create({
-			name,
-			phone,
-			email,
-			organization,
-			numberOfPhysicians,
-			message,
-		});
-		// Send an email to the admin
-		const transporter = nodemailer.createTransport({
-			service: "gmail",
-			auth: {
-				user: "webdevelopercapital@gmail.com",
-				pass: "ulgfizctvtqktylr",
-			},
-		});
+  try {
+    const totalDocs = await News.countDocuments();
+    const data = await News.find().skip(startIndex).limit(limit);
 
-		const mailOptions = {
-			from: email,
-			to: "webdevelopercapital@gmail.com",
-			subject: "Demo Request Details",
-			html: `
-			<html>
-			  <head>
-				<style>
-				  h1 {
-					color: #003062;
-				  }
-				  p {
-					font-size: 18px;
-					line-height: 1.5;
-				  }
-				</style>
-			  </head>
-			  <body>
-				<h1>Patient Details</h1>
-				<p>Name : ${name}</p>
-				<p>Email : ${email}</p>
-				<p>organization : ${organization}</p>
-				<p>Number Of Physicians : ${numberOfPhysicians}</p>
-				<p>Contact Number : ${phone}</p>
-				<p>Message : ${message}</p>
-			  </body>
-			</html>`,
-		};
-
-		transporter.sendMail(mailOptions, (err, info) => {
-			if (err) {
-				console.error(err);
-			} else {
-				console.log(info);
-			}
-		});
-
-		res
-			.status(200)
-			.json({ data: demoData, mesasge: "Demo reuqest sent successfully" });
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
+    res.status(200).json({
+      currentPage: page,
+      totalPages: Math.ceil(totalDocs / limit),
+      data,
+    });
+  } catch (err) {
+    res.status(500).json({ err: "getting some error" });
+  }
 };
 
-const getDemoRequestsByPagination = async (req, res) => {
-	const page = parseInt(req.query.page) || 1; // default to first page if page is not specified
-	const limit = parseInt(req.query.limit) || 21; // default to 10 documents per page if limit is not specified
-	const startIndex = (page - 1) * limit;
+const getNewsBySlug = async (req, res) => {
+  try {
+    let slugs = "/" + req.params.slug + "/";
+    const blog = await News.findOne({
+      slug: slugs,
+    });
+    if (!blog) {
+      return res.status(404).json({ error: "News not found" });
+    }
+    res.status(200).json({ data: blog });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};
 
-	try {
-		const totalDocs = await DemoRequest.countDocuments();
-		const data = await DemoRequest.find().skip(startIndex).limit(limit);
+const createNews = async (req, res) => {
+  try {
+    let result = await News.create({
+      title: req.body.title,
+      metaDes: req.body.metaDes,
+      foucKW: req.body.foucKW,
+      slug: req.body.slug,
+      seoTitle: req.body.seoTitle,
+      image: req.body.image,
+    });
+    res
+      .status(200)
+      .json({ data: result, mesasge: "News is created successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-		res.status(200).json({
-			currentPage: page,
-			totalPages: Math.ceil(totalDocs / limit),
-			data,
-		});
-	} catch (err) {
-		res.status(500).json({ err: "getting some error" });
-	}
+const updateNews = async (req, res) => {
+  try {
+    let id = req.params.blogId;
+
+    let blog = await News.updateOne(
+      { _id: id },
+      {
+        $set: {
+          title: req.body.title,
+          metaDes: req.body.metaDes,
+          foucKW: req.body.foucKW,
+          slug: req.body.slug,
+          seoTitle: req.body.seoTitle,
+          image: req.body.image,
+        },
+      }
+    );
+
+    res.status(200).json({ mesasge: "News updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const deleteNews = async (req, res) => {
+  try {
+    let deleted = await News.deleteOne({
+      _id: new mongodb.ObjectId(req.params.blogId),
+    });
+    res
+      .status(200)
+      .json({ data: deleted, mesasge: "News deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 module.exports = {
-	welocome,
-	createDemoRequest,
-	getDemoRequestsByPagination,
+  getAllNews,
+  getNewsByPagination,
+  getNewsBySlug,
+  createNews,
+  updateNews,
+  deleteNews,
 };

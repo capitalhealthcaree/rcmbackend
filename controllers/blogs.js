@@ -118,6 +118,7 @@ const deleteBlog = async (req, res) => {
 module.exports = {
 	getAllBlogs,
 	getLastThree,
+	popularBlogs,
 	blogsGetsByPagination,
 	getBlogBySlug,
 	createBlog,

@@ -46,8 +46,32 @@ const createBlog = async (req, res) => {
   }
 };
 
+const updateBlog = async (req, res) => {
+  try {
+    let id = req.params.blogId;
+
+    let blog = await Blog.updateOne(
+      { _id: id },
+      {
+        $set: {
+          title: req.body.title,
+          metaDes: req.body.metaDes,
+          foucKW: req.body.foucKW,
+          slug: req.body.slug,
+          seoTitle: req.body.seoTitle,
+          image: req.body.image,
+        },
+      }
+    );
+
+    res.status(200).json({ mesasge: "Blog updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 module.exports = {
   getAllBlogs,
   createBlog,
   getBlogsByPagination,
+  updateBlog,
 };

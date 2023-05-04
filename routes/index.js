@@ -19,6 +19,7 @@ router.get(
 	blogs.getBlogsByPagination
 );
 router.post("/blog/createBlog", blogs.createBlog);
+router.patch("/blog/update", blogs.updateBlog);
 
 
 module.exports = router;

@@ -15,8 +15,8 @@ router.post("/demo/createDemoRequest", demoRequest.createDemoRequest);
 
 // for Blogs Routes
 router.get("/blog/getAll", blogs.getAllBlogs);
+router.get("/blog/getLastThree", blogs.getLastThree);
 router.get("/blog/:slug", blogs.getBlogBySlug);
-
 router.get("/blog/getBlogsByPagination", blogs.getBlogsByPagination);
 router.post("/blog/createBlog", blogs.createBlog);
 router.patch("/blog/update/:blogId", blogs.updateBlog);

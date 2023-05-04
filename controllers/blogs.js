@@ -28,6 +28,22 @@ const getBlogsByPagination = async (req, res) => {
   }
 };
 
+const getBlogBySlug = async (req, res) => {
+  try {
+    let slugs = "/" + req.params.slug + "/";
+    const blog = await Blog.findOne({
+      slug: slugs,
+    });
+    if (!blog) {
+      return res.status(404).json({ error: "Blogs not found" });
+    }
+    res.status(200).json({ data: blog });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const createBlog = async (req, res) => {
   try {
     let result = await Blog.create({
@@ -69,9 +85,25 @@ const updateBlog = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+const deleteBlog = async (req, res) => {
+  try {
+    let deleted = await Blog.deleteOne({
+      _id: new mongodb.ObjectId(req.params.blogId),
+    });
+    res
+      .status(200)
+      .json({ data: deleted, mesasge: "Blog deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getAllBlogs,
   createBlog,
   getBlogsByPagination,
   updateBlog,
+  getBlogBySlug,
+  deleteBlog,
 };

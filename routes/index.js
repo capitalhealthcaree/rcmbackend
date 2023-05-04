@@ -21,7 +21,7 @@ router.get(
 	blogs.getBlogsByPagination
 );
 router.post("/blog/createBlog", blogs.createBlog);
-router.patch("/blog/update", blogs.updateBlog);
+router.patch("/blog/update/:blogId", blogs.updateBlog);
 router.delete("/blog/delete/:blogId", blogs.deleteBlog);
 
 

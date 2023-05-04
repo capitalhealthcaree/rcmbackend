@@ -11,7 +11,7 @@ const getAllBlogs = async (req, res) => {
 };
 const getLastThree = async (req, res) => {
 	try {
-		const data = await Blog.find().sort({ _id: -1 }).limit(5);
+		const data = await Blog.find().sort({ _id: -1 }).limit(3);
 		res.status(200).json({ data });
 	} catch (err) {
 		res.status(500).json({ err: "error getting blogs" });
@@ -19,7 +19,7 @@ const getLastThree = async (req, res) => {
 };
 const popularBlogs = async (req, res) => {
 	try {
-		const data = await Blog.find().sort({ _id: -1 }).limit(3);
+		const data = await Blog.find().sort({ _id: -1 }).limit(5);
 		res.status(200).json({ data });
 	} catch (err) {
 		res.status(500).json({ err: "error getting blogs" });

@@ -13,8 +13,8 @@ router.get(
 router.post("/demo/createDemoRequest", demoRequest.createDemoRequest);
 
 // for Blogs Routes
-router.get("/blogs/getAll", blogs.getAllBlogs);
-router.get("/blogs/:slug", blogs.getBlogBySlug);
+router.get("/blog/getAll", blogs.getAllBlogs);
+router.get("/blog/:slug", blogs.getBlogBySlug);
 
 router.get(
 	"/blog/getBlogsByPagination",

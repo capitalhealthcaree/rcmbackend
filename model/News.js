@@ -9,6 +9,8 @@ const newsSchema = mongoose.Schema(
     seoTitle: { type: Array, required: true },
     category: { type: String, required: true },
     image: { type: String },
+    newsCreatedAt: { type: Date, default: Date.now },
+
   },
   { timestamps: true }
 );

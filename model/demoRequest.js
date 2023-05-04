@@ -8,6 +8,8 @@ const demoRequestSchema = mongoose.Schema(
 		organization: { type: String, required: true },
 		numberOfPhysicians: { type: String, required: true },
 		message: { type: String, required: true },
+		demoRequestCreatedAt: { type: Date, default: Date.now },
+
 	},
 	{ timestamps: true }
 );

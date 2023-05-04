@@ -18,7 +18,7 @@ const getLastThree = async (req, res) => {
 	}
 };
 
-const getBlogsByPagination = async (req, res) => {
+const blogsGetsByPagination = async (req, res) => {
 	const page = parseInt(req.query.page) || 1; // default to first page if page is not specified
 	const limit = parseInt(req.query.limit) || 21; // default to 10 documents per page if limit is not specified
 	const startIndex = (page - 1) * limit;
@@ -111,7 +111,7 @@ const deleteBlog = async (req, res) => {
 module.exports = {
 	getAllBlogs,
 	getLastThree,
-	getBlogsByPagination,
+	blogsGetsByPagination,
 	getBlogBySlug,
 	createBlog,
 	updateBlog,

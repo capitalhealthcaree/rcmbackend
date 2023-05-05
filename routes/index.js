@@ -25,6 +25,7 @@ router.delete("/blog/delete/:blogId", blogs.deleteBlog);
 
 // for News Routes
 router.get("/news/getAll", news.getAllNews);
+router.get("/news/popularNews", news.popularNews);
 router.get("/news/getNewsByPagination", news.getNewsByPagination);
 router.get("/news/:slug", news.getNewsBySlug);
 router.post("/news/createNews", news.createNews);

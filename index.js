@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const appPort = 5000;
+const appPort = 6000;
 const mongoose = require("mongoose");
 const cors = require("cors");
 const routes = require("./routes");
@@ -14,7 +14,7 @@ app.use(express.json());
 
 // Database Connection
 mongoose.connect(
-	"mongodb+srv://ppbackend:Web786786@healthcarecluster.yhawahg.mongodb.net/mymedicalbillingrcm?retryWrites=true&w=majority"
+	"mongodb+srv://ppbackend:Web786786@healthcarecluster.yhawahg.mongodb.net/dallaspremierpainsDb?retryWrites=true&w=majority"
 );
 const db = mongoose.connection;
 db.on("connected", () => {
@@ -25,7 +25,7 @@ db.on("disconnected", (err, res) => {
 });
 
 //All Routes
-app.use("/api/v1", routes);
+app.use("/api", routes);
 
 // Server
 app.listen(appPort, () => {

@@ -1,17 +1,17 @@
 const express = require("express");
-const appointment = require("../controllers/appointment");
+const demoRequest = require("../controllers/demoRequest");
 const blogs = require("../controllers/blogs");
 const news = require("../controllers/news");
 
 const router = express.Router();
 
-// for appointment Routes
-router.get("/demo", appointment.welocome);
+// for demoRequest Routes
+router.get("/demo", demoRequest.welocome);
 router.get(
-  "/appointment/getAppointmentsByPagination",
-  appointment.getAppointmentsByPagination
+	"/demo/getDemoRequestsByPagination",
+	demoRequest.getDemoRequestsByPagination
 );
-router.post("/appointment/create", appointment.createAppointment);
+router.post("/demo/createDemoRequest", demoRequest.createDemoRequest);
 
 // for Blogs Routes
 router.get("/blog/getAll", blogs.getAllBlogs);

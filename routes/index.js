@@ -7,9 +7,12 @@ const router = express.Router();
 
 // for demoRequest Routes
 router.get("/", demoRequest.welocome);
+
+router.get("/demo/getAllDemoRequests", demoRequest.getAllDemoRequests);
+
 router.get(
-	"/demo/getDemoRequestsByPagination",
-	demoRequest.getDemoRequestsByPagination
+  "/demo/getDemoRequestsByPagination",
+  demoRequest.getDemoRequestsByPagination
 );
 router.post("/demo/createDemoRequest", demoRequest.createDemoRequest);
 

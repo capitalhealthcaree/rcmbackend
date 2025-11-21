@@ -73,13 +73,17 @@ const createDemoRequest = async (req, res) => {
 };
 
 const getDemoRequestsByPagination = async (req, res) => {
-  const page = parseInt(req.query.page) || 1; // default to first page if page is not specified
-  const limit = parseInt(req.query.limit) || 21; // default to 10 documents per page if limit is not specified
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 21;
   const startIndex = (page - 1) * limit;
 
   try {
     const totalDocs = await DemoRequest.countDocuments();
-    const data = await DemoRequest.find().skip(startIndex).limit(limit);
+
+    const data = await DemoRequest.find()
+      .sort({ createdAt: -1 }) // <-- MOST RECENT FIRST
+      .skip(startIndex)
+      .limit(limit);
 
     res.status(200).json({
       currentPage: page,
@@ -91,8 +95,23 @@ const getDemoRequestsByPagination = async (req, res) => {
   }
 };
 
+const getAllDemoRequests = async (req, res) => {
+  try {
+    // Sort by newest first
+    const data = await DemoRequest.find().sort({ createdAt: -1 });
+
+    res.status(200).json({
+      total: data.length,
+      data,
+    });
+  } catch (err) {
+    res.status(500).json({ err: "Error fetching demo requests" });
+  }
+};
+
 module.exports = {
   welocome,
   createDemoRequest,
   getDemoRequestsByPagination,
+  getAllDemoRequests,
 };

@@ -14,20 +14,20 @@ app.use(express.json());
 
 // Database Connection
 mongoose.connect(
-	"mongodb+srv://ppbackend:Web786786@healthcarecluster.yhawahg.mongodb.net/mymedicalbillingrcm?retryWrites=true&w=majority"
+  "mongodb+srv://ppbackend:Web786786@healthcarecluster.yhawahg.mongodb.net/mymedicalbillingrcm?retryWrites=true&w=majority"
 );
 const db = mongoose.connection;
 db.on("connected", () => {
-	console.log("db connected");
+  console.log("db connected");
 });
 db.on("disconnected", (err, res) => {
-	console.log("db disconnected", err, "###", res);
+  console.log("db disconnected", err, "###", res);
 });
 
 //All Routes
-app.use("/api/v1", routes);
+app.use("/", routes);
 
 // Server
 app.listen(appPort, () => {
-	console.log(`Server running at http://localhost/:${appPort}/`);
+  console.log(`Server running at http://localhost:${appPort}/`);
 });

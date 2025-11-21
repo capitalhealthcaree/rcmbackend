@@ -6,7 +6,7 @@ const news = require("../controllers/news");
 const router = express.Router();
 
 // for demoRequest Routes
-router.get("/demo", demoRequest.welocome);
+router.get("/", demoRequest.welocome);
 router.get(
 	"/demo/getDemoRequestsByPagination",
 	demoRequest.getDemoRequestsByPagination
